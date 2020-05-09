@@ -1,0 +1,14 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+        python: 3.7
+  build:
+    commands:
+      - pip install --upgrade pip
+      - pip install pipenv --user
+      - pipenv install awscli aws-sam-cli
+      - pipenv run sam package --template-file template.yml --s3-bucket aws-audio-analysis11 --output-template-file packaged-template.yml
+artifacts:
+  files:
+    - packaged-template.yml
