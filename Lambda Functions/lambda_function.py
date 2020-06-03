@@ -24,10 +24,7 @@ def search_intent(keys):
     service = 'es'
     credentials = boto3.Session().get_credentials()
 
-# awsauth = AWS4Auth("AKIAZRDXPGY5F3VT5ZHK", "IF6g7iqkItCLHNvT1KDrFSnBGG28RxPGRd9SPSeT", region, service)
     awsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)
-# logger.debug(credentials.access_key)
-# logger.debug(credentials.secret_key)
 
     es = Elasticsearch(
         hosts = [{'host': vpcEndPoint, 'port': 443}],
@@ -36,7 +33,6 @@ def search_intent(keys):
         verify_certs = True,
         connection_class = RequestsHttpConnection
     )
-    #es = Elasticsearch("https://vpc-photos-4kiie3w6likagxncic65ld3v7y.us-east-1.es.amazonaws.com")
     resp = []
     for key in keys:
         if (key is not None) and key != '':
@@ -53,7 +49,7 @@ def search_intent(keys):
              for val in r['hits']['hits']:
                 key = val['_source']['objectKey']
                 if key not in output:
-                    output.append('https://b2-photo-bucket.s3.amazonaws.com/'+key)
+                    output.append('YOUR-BUCKET-LINK/'+key)
     print (output)
     return output    
 
